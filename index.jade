@@ -1,0 +1,91 @@
+doctype 5
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title anode@microsoft
+    meta(name='author', content='elad ben-israel')
+    link(href='css/bootstrap.css', rel='stylesheet')
+    style(type='text/css')
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    link(href='css/index.css', rel='stylesheet')
+
+  body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          a.brand(href='#') <strong>anode@microsoft</strong>
+          ul.nav
+
+    .container
+      .hero-unit
+        .row
+          .logo.span1
+          .span8
+            h1 anode!
+            br
+            | <strong>anode</strong> is a prototyping web app platform we run at Microsoft for rapidly experimenting with the web. The platform runs on <a href='http://www.windowsazure.com/en-us/develop/nodejs'>Azure</a> and is built entirely with <a href='http://nodejs.org'>node.js</a>, using great modules by awesome hackers around the world.
+            br
+            br
+            | We are glad to share a bunch of the modules we create and use as part of the project and welcome contributions and feedback. All modules are published under the <a href='http://en.wikipedia.org/wiki/MIT_License'>MIT License</a>.
+
+        .row
+          .span12
+          hr
+          h1(align='center') Our modules
+            a.btn-small(href="https://github.com/anodejs") github
+          br
+          .alert.alert-info
+            strong We wanted to get this stuff out and share it with the amazing node.js community.
+            br
+            | Some of the public code is still not 100% documented, tested and undoubtfully buggy. If something is missing or if you have any problem or question, feel free to <a href='#'>contact</a> us, create a github issue in the relevant repository or even better: <strong>fork and send a pull request</strong>.
+
+      hr
+      .row
+        .span4
+          h2 farmjs
+          p Host multiple apps seamlessly on a single server. It is also a great place to put tranparent middleware for apps to enable fast worry-free prototyping: security, metrics, logging and other vegtables.
+          p.usage This module is the root of each server within our system. Whenever a request comes in, the target app is identified, spawned and the request is <a href='https://github.com/nodejitsu/node-http-proxy'>proxied</a> to it via a named-pipe.
+
+        .span4
+          h2 rebus
+          p State-based intra-server pub/sub library. Listen to changes on <i>data</i> rather on <i>events</i>.
+          p.usage Our apps repository and system topology are exposed using <strong>rebus</strong> to any apps running on <i>anode</i>. Apps can monitor these structures for changes and act upon them.
+
+        .span4
+          h2 gits
+          p A Windows-friendly <a href='#'>git</a> wrapper for node.js with some useful sugar.
+          p.usage Deployment on <i>anode</i> uses git and <a href='#'>github</a>. Whenever we push stuff upstream, a github post-commit trigger is sent to our system and broadcasted to all the servers. We use <strong>gits</strong> to mirror the local filesystem from the remote repository and deploy apps continuously onto the various clusters.
+
+      .row
+        br
+        .span4
+          a.btn(href='https://github.com/anodejs/node-farmjs') Source &raquo;
+          span.credits
+            a(href='#') eladb
+            | ,
+            a(href='#') mojodna
+
+        .span4
+          a.btn(href='https://github.com/anodejs/node-rebus') Source &raquo;
+          span.credits
+            a(href='#') eladb
+
+        .span4
+          a.btn(href='https://github.com/anodejs/node-gits') Source &raquo;
+          span.credits
+            a(href='#') yosefd
+            | ,
+            a(href='#') gilado
+            | ,
+            a(href='#') eladb
+
+    footer
+      | built with <a href='http://twitter.github.com/bootstrap'>bootstrap</a>
+      | |
+      | <strong>&copy; Microsoft Corporation 2012</strong>

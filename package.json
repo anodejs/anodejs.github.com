@@ -1,0 +1,19 @@
+{
+  "author": "Elad Ben-Israel <eladb@microsoft.com>",
+  "name": "anodejs.github.com",
+  "description": "anode@microsoft home page",
+  "version": "0.0.1",
+  "homepage": "anodejs.org",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/anodejs/anodejs.github.com.git"
+  },
+  "engines": {
+    "node": "~0.6.10"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jade": "*"
+  },
+  "optionalDependencies": {}
+}
