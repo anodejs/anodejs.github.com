@@ -1,0 +1,7 @@
+{
+	"name": "rebus",
+	"desc": "State-based intra-server pub/sub library. Listen to changes on <i>data</i> rather on <i>events</i>.",
+	"usage": "Our apps repository and system topology are exposed using <strong>rebus</strong> to any apps running on <i>anode</i>. Apps can monitor these structures for changes and act upon them.",
+	"url": "https://github.com/anodejs/node-rebus",
+	"contrib": [ "yosefd" ]
+}

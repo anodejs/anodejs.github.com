@@ -1,0 +1,7 @@
+{
+	"name": "ypatterns",
+	"desc": "Misc javascript programming patterns.",
+	"usage": "",
+	"url": "https://github.com/anodejs/node-ypatterns",
+	"contrib": [ "yosefd" ]
+}

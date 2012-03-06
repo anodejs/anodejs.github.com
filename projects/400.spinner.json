@@ -1,0 +1,7 @@
+{
+	"name": "spinner",
+	"desc": "Spin and maintain child processes with a few nice features:<ul><li>Wait for children to bind to a port</li><li>Shutdown after idle timeout</li><li>Automatically restart on file changes</li><li>Faulty state if terminates too fast</li><li>Pipe stdout/stderr</li></ul>",
+	"usage": "This module is used by <a href='#farmjs'>farmjs</a> to spin up apps.",
+	"url": "https://github.com/anodejs/node-spinner",
+	"contrib": [ "eladb", "mojodna" ]
+}

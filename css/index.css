@@ -32,3 +32,7 @@ footer {
   text-align: right;
   font-size: small;
 }
+
+img.contrib {
+  border: 2px #101010 solid;
+}

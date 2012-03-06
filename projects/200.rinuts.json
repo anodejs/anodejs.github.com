@@ -1,0 +1,7 @@
+{
+	"name": "rinuts",
+	"desc": "An HTTP server which exposes unit tests via REST API.<br/>Rinuts is extensible via 'rinuts-drivers'. Currently, we maintain: <ul><li>A <a href='https://github.com/urigolani/rinuts-nodeunitDriver'>nodeunit</a> driver</li><li>An mstest (!!) driver for Windows</li></ul>",
+	"usage": "Each app that runs on <i>anode</i> may choose to expose black box tests using <strong>rinuts</strong> (or rinuts-compatible HTTP API). This allows us to automatically run app tests against any version of the code when we integrate code into master or during development.",
+	"url": "https://github.com/anodejs/node-rinuts",
+	"contrib": [ "urig" ]
+}

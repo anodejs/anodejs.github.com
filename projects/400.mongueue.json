@@ -1,0 +1,7 @@
+{
+	"name": "mongueue",
+	"desc": "A MongoDB-based queue with some neat tricks. Uses <a href='http://www.mongodb.org/'>MongoDB</a>'s <code>findAndModify</code> to implement a scalable queue with support for timeouts, retries and cron-like tasks.",
+	"usage": "We use <strong>mongueue</strong> in <i>anode</i> to implement our cron/pushqueue facility. The pushqueue facility pushes HTTP request definitions into a queue and distributes them in parallel to apps.",
+	"url": "https://github.com/anodejs/node-mongueue",
+	"contrib": [ "ork", "eladb" ]
+}

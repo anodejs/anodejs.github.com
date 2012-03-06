@@ -1,0 +1,7 @@
+{
+	"name": "docrouter",
+	"desc": "A Connect/Express router wrapper which exposes a formatted description of the available services of a server. The documentation is available is multiple formats (Html, Wadl, Json).",
+	"usage": "We use <strong>docrouter</strong> to automatically create documentation and command line completion of our internal APIs and for APIs of apps created on top of <i>anode</i>.",
+	"url": "https://github.com/anodejs/node-docrouter",
+	"contrib": [ "saary", "gilado", "amitu" ]
+}

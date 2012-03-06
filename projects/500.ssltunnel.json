@@ -1,0 +1,7 @@
+{
+	"name": "ssltunnel",
+	"desc": "A lightweight TCP over SSL / TLS tunnel running over node. If you need to add confidentiality (privacy), integrity, and authenticity to your TCP stream this is the tool for you.",
+	"usage": "We use <strong>ssltunnel</strong> to connect securely and transparently to our storage servers.",
+	"url": "https://github.com/anodejs/node-ssltunnel",
+	"contrib": [ "dimast", "yosefd" ]
+}

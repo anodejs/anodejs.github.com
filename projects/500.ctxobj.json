@@ -1,0 +1,7 @@
+{
+	"name": "ctxobj",
+	"desc": "Overloads javascript objects with <code>pushctx()</code> and <code>popctx()</code> functions. They can be used to create derived objects overloaded with a context stack. This module also exports a <code>console()</code> function that can be used to wrap any console-like object in context stack which will be printed as a prefix to any log line.",
+	"usage": "We use this library to create super readable and easy to read logs for our distributed system. Each log line contains a context stack that can be used to track down flows across processes and servers.",
+	"url": "https://github.com/anodejs/node-ctxobj",
+	"contrib": [ "eladb" ]
+}

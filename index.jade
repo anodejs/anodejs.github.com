@@ -2,7 +2,7 @@ doctype 5
 html(lang='en')
   head
     meta(charset='utf-8')
-    title anode@microsoft
+    title= title
     meta(name='author', content='elad ben-israel')
     link(href='css/bootstrap.css', rel='stylesheet')
     style(type='text/css')
@@ -19,7 +19,7 @@ html(lang='en')
     .navbar.navbar-fixed-top
       .navbar-inner
         .container
-          a.brand(href='#') <strong>anode@microsoft</strong>
+          a.brand(href='#') <strong>#{title}</strong>
           ul.nav
 
     .container
@@ -34,56 +34,65 @@ html(lang='en')
             br
             | We are glad to share a bunch of the modules we create and use as part of the project and welcome contributions and feedback. All modules are published under the <a href='http://en.wikipedia.org/wiki/MIT_License'>MIT License</a>.
 
-        .row
-          .span12
-          hr
-          h1(align='center') Our modules
-            a.btn-small(href="https://github.com/anodejs") github
+      .row
+        .span12
+        hr
+        h1(align='center') Our modules
+          a.btn-small(href="https://github.com/anodejs") github
+        br
+        .alert.alert-info
+          strong We wanted to get this stuff out and share it with the amazing node.js community.
           br
-          .alert.alert-info
-            strong We wanted to get this stuff out and share it with the amazing node.js community.
-            br
-            | Some of the public code is still not 100% documented, tested and undoubtfully buggy. If something is missing or if you have any problem or question, feel free to <a href='#'>contact</a> us, create a github issue in the relevant repository or even better: <strong>fork and send a pull request</strong>.
+          | Some of the public code is still not 100% documented, tested and undoubtfully buggy. If something is missing or if you have any problem or question, feel free to <a href='mailto:anodelibs@microsoft.com'>contact</a> us, create a github issue in the relevant repository or even better: <strong>fork and send a pull request</strong>.
+
+
+      - var trios = [];
+      - var currentTrio = 0;
+
+      - for (var i = 0; i < projects.length; ++i) {
+      -   if (!trios[currentTrio]) trios[currentTrio] = [];
+      -   trios[currentTrio].push(projects[i]);
+      -   if ((i+1) % 3 === 0) currentTrio++;
+      - };
+
+      - trios.forEach(function(trio) {
+
+      - trio.forEach(function(project) {
+      a(id=project.name)
+      - });
 
       hr
       .row
-        .span4
-          h2 farmjs
-          p Host multiple apps seamlessly on a single server. It is also a great place to put tranparent middleware for apps to enable fast worry-free prototyping: security, metrics, logging and other vegtables.
-          p.usage This module is the root of each server within our system. Whenever a request comes in, the target app is identified, spawned and the request is <a href='https://github.com/nodejitsu/node-http-proxy'>proxied</a> to it via a named-pipe.
 
+        - trio.forEach(function(project) {
         .span4
-          h2 rebus
-          p State-based intra-server pub/sub library. Listen to changes on <i>data</i> rather on <i>events</i>.
-          p.usage Our apps repository and system topology are exposed using <strong>rebus</strong> to any apps running on <i>anode</i>. Apps can monitor these structures for changes and act upon them.
-
-        .span4
-          h2 gits
-          p A Windows-friendly <a href='#'>git</a> wrapper for node.js with some useful sugar.
-          p.usage Deployment on <i>anode</i> uses git and <a href='#'>github</a>. Whenever we push stuff upstream, a github post-commit trigger is sent to our system and broadcasted to all the servers. We use <strong>gits</strong> to mirror the local filesystem from the remote repository and deploy apps continuously onto the various clusters.
+          h2 !{project.name}
+          p !{project.desc}
+          p.usage !{project.usage}
+        - })
 
       .row
         br
-        .span4
-          a.btn(href='https://github.com/anodejs/node-farmjs') Source &raquo;
-          span.credits
-            a(href='#') eladb
-            | ,
-            a(href='#') mojodna
 
+        - trio.forEach(function(project) {
         .span4
-          a.btn(href='https://github.com/anodejs/node-rebus') Source &raquo;
+          a.btn(href='#{project.url}') Source &raquo;
           span.credits
-            a(href='#') eladb
+            - var first = true;
+            - project.contrib.forEach(function(cont) {
+            -   if (!first) {
+            | ,
+            -   }
+            -   var contribDescriptor = contrib[cont];
+            -   if (!contribDescriptor) console.error('Unable to find %s in contrib.json', cont);
+            -   else {
+            a(href=contribDescriptor.home)= cont
+            -     first = false;
+            -   }
+            - });
+        - })
 
-        .span4
-          a.btn(href='https://github.com/anodejs/node-gits') Source &raquo;
-          span.credits
-            a(href='#') yosefd
-            | ,
-            a(href='#') gilado
-            | ,
-            a(href='#') eladb
+      - })
 
     footer
       | built with <a href='http://twitter.github.com/bootstrap'>bootstrap</a>

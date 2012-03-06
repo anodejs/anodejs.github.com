@@ -1,0 +1,7 @@
+{
+	"name": "statestream",
+	"desc": "Quickly creates HTTP downstreams for state changes. Just plug in an in-memory object (or a function) and consumers will be updated on changes.",
+	"usage": "We use <strong></strong> to enable web-based real-time view of some of the system elements.",
+	"url": "https://github.com/eladb/node-statestream",
+	"contrib": [ "eladb" ]
+}

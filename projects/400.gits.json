@@ -1,0 +1,7 @@
+{
+	"name": "gits",
+	"desc": "A Windows-friendly <a href='http://git-scm.com/'>git</a> wrapper for node.js with some useful sugar.",
+	"usage": "Deployment on <i>anode</i> uses git and <a href='https://github.com'>github</a>. Whenever we push stuff upstream, a github post-commit trigger is sent to our system and broadcasted to all the servers. We use <strong>gits</strong> to mirror the local filesystem from the remote repository and deploy apps continuously onto the various clusters.",
+	"url": "https://github.com/anodejs/node-gits",
+	"contrib": [ "gilado", "yosefd", "eladb" ]
+}

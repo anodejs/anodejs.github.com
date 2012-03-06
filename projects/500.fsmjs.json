@@ -1,0 +1,7 @@
+{
+	"name": "fsmjs",
+	"desc": "A general-purpose finite state machine module that can be used to implement complex control flows.",
+	"usage": "<strong>fsmjs</strong> is used by <a href='#spinner'>spinner</a> to maintain the lifetime of child processes.",
+	"url": "https://github.com/anodejs/node-fsmjs",
+	"contrib": [ "eladb" ]
+}

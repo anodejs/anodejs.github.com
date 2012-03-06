@@ -15,5 +15,6 @@
   "devDependencies": {
     "jade": "*"
   },
+  "main": "build",
   "optionalDependencies": {}
 }

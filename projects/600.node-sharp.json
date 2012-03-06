@@ -1,0 +1,7 @@
+{
+	"name": "node-sharp",
+	"desc": "A native node.js extension which allows loading .NET assemblies and use them within node.js.",
+	"usage": "We use <strong>node-sharp</strong> to access some .NET code we didn't want to rewrite and some Windows-specific facilities.",
+	"url": "https://github.com/anodejs/node-sharp",
+	"contrib": [ "jettj", "saary" ]
+}

@@ -1,0 +1,73 @@
+{
+
+	"saary": {
+		"name": "Saar Yahalom",
+		"home": "https://github.com/saary",
+		"office": "tlv",
+		"gravatar": ""
+	},
+
+	"yosefd": {
+		"name": "Yosef Dinerstein",
+		"home": "https://github.com/yosefd",
+		"office": "tlv",
+		"gravatar": "https://secure.gravatar.com/avatar/64375ec5182aba8455bbb185f67e2cba"
+	},
+
+	"dimast": {
+		"name": "Dima Stopel",
+		"home": "https://github.com/dimastopel",
+		"office": "tlv",
+		"gravatar": ""
+	},
+
+	"amitu": {
+		"name": "Ami Turgman",
+		"home": "https://github.com/amiturgman",
+		"office": "tlv",
+		"gravatar": "https://secure.gravatar.com/avatar/5befa2a5adbacd164198ebdda98b0c3b"
+	},
+
+	"urig": {
+		"name": "Uri Golani",
+		"home": "https://github.com/urigolani",
+		"office": "tlv",
+		"gravatar": ""
+	},
+
+	"mojodna": {
+		"name": "Seth Fitzsimmons", 
+		"home": "http://mojodna.net",
+		"office": "sf",
+		"gravatar": "https://secure.gravatar.com/avatar/a0b49382b6dcd9dd4602c3088717724e"
+	},
+
+	"ork": {
+		"name": "Or Kaplan",
+		"home": "https://github.com/orkaplan",
+		"office": "tlv",
+		"gravatar": ""
+	},
+
+	"jettj": {
+		"name": "Jett Jones",
+		"home": "https://github.com/JettJones",
+		"office": "sea",
+		"gravatar": ""
+	},
+
+	"gilado": {
+		"name": "Gilad Oren",
+		"home": "https://github.com/gilad61",
+		"office": "tlv",
+		"gravatar": ""
+	},
+
+	"eladb": {
+		"name": "Elad Ben-Israel",
+		"home": "http://eladb.github.com",
+		"office": "tlv",
+		"gravatar": "https://secure.gravatar.com/avatar/818098adc742556c3de4da4c605bcab3"
+	}
+
+}
