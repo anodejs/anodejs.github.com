@@ -1,7 +1,0 @@
-{
-	"name": "farmjs",
-	"desc": "Host multiple apps seamlessly on a single server. It is also a great place to put transparent middleware for apps to enable fast worry-free prototyping: security, metrics, logging and other vegetables.",
-	"usage": "This module is the root of each server within our system. Whenever a request comes in, the target app is identified, spawned and the request is <a href='https://github.com/nodejitsu/node-http-proxy'>proxied</a> to it via a named-pipe.",
-	"url": "https://github.com/anodejs/node-farmjs",
-	"contrib": [ "eladb", "yosefd" ]
-}
