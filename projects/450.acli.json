@@ -1,6 +1,6 @@
 {
 	"name": "aCLI",
-	"desc": "Lean and mean jQuery plugin that implements a text console with HTTP plugins, help, man pages and a lot of goodies",
+	"desc": "Lean and mean jQuery plugin that implements a text console with HTTP plugins, help and many more goodies",
 	"usage": "We use this control as the main dashboard of the anode system. Apps create plugins for management purposes and developers use the console to view logs and investigate app conditions.",
 	"url": "https://github.com/amiturgman/aCLI",
 	"contrib": [ "amiturgman" ]
