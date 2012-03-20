@@ -1,6 +1,9 @@
 var jade = require('jade');
 var path = require('path');
 var fs = require('fs');
+var blog = require('./blog');
+require('coffee-script');
+var watchr = require('watchr');
 
 process.chdir(__dirname);
 
@@ -8,6 +11,8 @@ var projectsDir = 'projects';
 var jadeFile = 'index.jade';
 var outputFile = 'index.html';
 var contribFile = 'contrib.json';
+var blogdir = path.join(__dirname, 'blog')
+
 
 var options = {
 	title: 'anode@microsoft',
@@ -16,17 +21,20 @@ var options = {
 };
 
 function build() {
-
-	console.info('Rendering', jadeFile, '==>', outputFile);
-	return jade.renderFile(jadeFile, options, function(err, html) {
-		if (err) console.error(err);
-		else {
-			fs.writeFile(outputFile, html, function(err) {
-				if (err) console.error(err);
-			});
-		}
+	blog(blogdir, function(err, posts) {
+		options.blog = posts;
+		console.time("build");
+		console.info('Building...');
+		return jade.renderFile(jadeFile, options, function(err, html) {
+			if (err) console.error(err);
+			else {
+				fs.writeFile(outputFile, html, function(err) {
+					console.timeEnd("build");
+					if (err) console.error(err);
+				});
+			}
+		});
 	});
-
 }
 
 build();
@@ -34,8 +42,7 @@ build();
 if (process.argv[2] === '--watch' ||
 	process.argv[2] === '-w') {
 	console.log('Watching', jadeFile, 'for changes...');
-	fs.watch(jadeFile, function(e) {
-		console.log(e);
+	watchr.watch(__dirname, function(e) {
 		build();
 	});
 }

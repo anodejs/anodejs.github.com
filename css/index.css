@@ -1,19 +1,10 @@
 
 .logo {
   background-image: url('../img/logo.png');
-  background-size:195px 215px;
+  background-size:80px 88px;
   background-repeat:no-repeat;
-  width: 195px;
-  height: 215px;
-/*  position: absolute;
-  right: 10px;
-  top: 10px;
-  z-index: 1040;
-*/}
-            
-
-.usage {
-  color: #101010;
+  width: 80px;
+  height: 88px;
 }
 
 .credits {
@@ -29,7 +20,6 @@
 footer {
   padding-top: 100px;
   color: gray;
-  text-align: right;
   font-size: small;
 }
 
