@@ -11,7 +11,7 @@ process.chdir(__dirname);
 
 var projectsDir = 'projects';
 var jadeFile = 'index.jade';
-var outputFile = 'index_new.html';
+var outputFile = 'index.html';
 var contribFile = 'contrib.json';
 var rssFile = 'rss.xml';
 
