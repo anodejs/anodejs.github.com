@@ -1,18 +1,21 @@
+require('coffee-script');
+
 var jade = require('jade');
 var path = require('path');
 var fs = require('fs');
-var blog = require('./blog');
-require('coffee-script');
+var async = require('async');
+var renderBlog = require('./blog');
 var watchr = require('watchr');
 
 process.chdir(__dirname);
 
 var projectsDir = 'projects';
 var jadeFile = 'index.jade';
-var outputFile = 'index.html';
+var outputFile = 'index_new.html';
 var contribFile = 'contrib.json';
-var blogdir = path.join(__dirname, 'blog')
+var rssFile = 'rss.xml';
 
+var blogdir = path.join(__dirname, 'blog')
 
 var options = {
 	title: 'anode@microsoft',
@@ -21,19 +24,38 @@ var options = {
 };
 
 function build() {
-	blog(blogdir, function(err, posts) {
-		options.blog = posts;
-		console.time("build");
-		console.info('Building...');
-		return jade.renderFile(jadeFile, options, function(err, html) {
-			if (err) console.error(err);
-			else {
-				fs.writeFile(outputFile, html, function(err) {
-					console.timeEnd("build");
-					if (err) console.error(err);
+	console.time("build");
+	console.info('Building...');
+
+	return async.series([
+		function(cb) {
+			return renderBlog(blogdir, options.contrib, function(err, blog) {
+				if (err) return cb(err);
+				options.blog = blog.posts;
+
+				// write rss.xml
+				return fs.writeFile(rssFile, blog.rss, cb);
+			});
+		},
+		function(cb) {
+			return fs.readFile(path.join(__dirname, 'disqus.html'), function(err, data) {
+				if (err) return cb(err);
+				options.disqus = data.toString();
+				return cb();
+			});
+		},
+		function(cb) {
+			return jade.renderFile(jadeFile, options, function(err, html) {
+				if (err) return cb(err);
+				return fs.writeFile(outputFile, html, function(err) {
+					if (err) return cb(err);
+					return cb();
 				});
-			}
-		});
+			});
+		}
+	], function(err) {
+		if (err) console.error(err);
+		else console.timeEnd('build');
 	});
 }
 

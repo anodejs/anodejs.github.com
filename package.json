@@ -16,7 +16,8 @@
     "jade": "*",
     "marked": "0.2.1",
     "async": "0.1.18",
-    "watchr": "1.0.0"
+    "watchr": "1.0.0",
+    "rss": "0.0.3"
   },
   "main": "build",
   "optionalDependencies": {}

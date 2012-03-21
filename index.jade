@@ -31,6 +31,8 @@ html(lang='en')
           - blog.forEach(function(post) {
             a(name=post.name)
             | !{post.html}
+            hr
+            | !{disqus}
           - })
 
         .span4
@@ -68,14 +70,16 @@ html(lang='en')
               - })
 
       footer
-        | <strong>&copy; Microsoft Corporation 2012</strong>
+        | &copy; Microsoft Corporation 2012
         | |
+        a.feed(href='rss.xml') subscribe
+        | &nbsp; |
         | built with
         a(href='http://twitter.github.com/bootstrap') bootstrap
         | , 
-        a(href='#') jade
+        a(href='http://jade-lang.com') jade
         | ,
-        a(href='#') marked
+        a(href='https://github.com/chjj/marked') marked
 
   script(type='text/javascript', src='js/jquery-1.7.1.min.js')
   script(type='text/javascript', src='js/analytics.js')

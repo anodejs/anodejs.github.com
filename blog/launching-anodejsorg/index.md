@@ -1,10 +1,6 @@
-
-# We work at Microsoft and we use node.js
-<small>Posted on March 20, 2012 by [Elad Ben-Israel](https://github.com/eladb)</small>
-<br/>
-<br/>
-
 We recently spent some time with [Charles Torre from Channel 9](http://channel9.msdn.com/Blogs/Charles/anode-An-Experimental-nodejs-Platform-for-Windows-Azure), discussing node.js at Microsoft and the project we have been working on, __anode__. 
+
+<iframe style="height:288px;width:512px" src="http://channel9.msdn.com/Blogs/Charles/anode-An-Experimental-nodejs-Platform-for-Windows-Azure/player?w=512&h=288" frameBorder="0" scrolling="no"></iframe>
 
 We thought it would be a nice opportunity to launch our blog and share some of our experiences. Currently there are no plans to release anode as a service, but we are pleased to share the modules we have created as part of the project.
 
