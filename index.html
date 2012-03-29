@@ -5,7 +5,139 @@
 .sidebar-nav {
   padding: 9px 0;
 }
-</style><link href="css/index.css" rel="stylesheet"></head><body><div class="navbar navbar-fixed-top"><div class="navbar-inner"><div class="container"><a href="#" class="brand"><strong>anode@microsoft</strong> blog</a><ul class="nav"></ul></div></div></div><div class="container"><div class="row"><div class="span8"><br><br><div class="row"></div><a name="launching-anodejsorg"></a><h1>We work at Microsoft and we use node.js</h1><p><small>Posted on Tuesday, March 20, 2012 by <a href="http://eladb.github.com">Elad Ben-Israel</a></small><br/></p><p>We recently spent some time with <a href="http://channel9.msdn.com/Blogs/Charles/anode-An-Experimental-nodejs-Platform-for-Windows-Azure">Charles Torre from Channel 9</a>, discussing node.js at Microsoft and the project we have been working on, <strong>anode</strong>. 
+</style><link href="css/index.css" rel="stylesheet"></head><body><div class="navbar navbar-fixed-top"><div class="navbar-inner"><div class="container"><a href="#" class="brand"><strong>anode@microsoft</strong> blog</a><ul class="nav"></ul></div></div></div><div class="container"><div class="row"><div class="span8"><br><br><div class="row"></div><div id="securing-mongo-with-ssltunnel" class="entry"><a name="securing-mongo-with-ssltunnel" class="hash">&nbsp;</a><h1>Securing MongoDB traffic with ssltunnel</h1><p><small>Posted on Thursday, March 29, 2012 by <a href="https://github.com/dimastopel">Dima Stopel</a></small><br/></p><p>Hi guys,
+
+</p>
+<p>Today I&#39;d like to discuss ssltunnel. So, what is it? ssltunnel is a lightweight TCP over SSL / TLS tunnel running over node. If you need to add confidentiality (privacy), integrity, and authenticity to your TCP stream this is the tool for you. ssltunnel is available as node package via <a href="http://search.npmjs.org/#/ssltunnel">npm</a>. It is distributed under MIT license. 
+
+</p>
+<h2>Intro</h2>
+<p>In order to make the discussion about the deeper parts more concrete let&#39;s take a concrete example. Let&#39;s say that you use mongodb as your database and you need to connect to your CLI client (mongo.exe) running on you PC to your mongo server (mongod.exe) running on your remote VM. Now suppose that you want to assure that all the traffic is encrypted and that only you can connect to your mongo server. Here ssltunnel becomes handy. 
+
+</p>
+<p>ssltunnel consists of two parts: <em>sslproxy</em> and <em>sslserver</em>. The sslproxy part is running on the client machine communicating with the real client, mongo.exe in our case, and sslserver. The sslserver part is running on the server machine and communicating with sslproxy and the back-end server, mongod.exe in our case. sslproxy authenticates sslserver via SSL server certificate. sslserver authenticates sslproxy via SSL client certificate. The traffic itself is encrypted using standard SSL / TLS protocol.
+
+
+</p>
+<h2>Tunneling mongo traffic through ssltunnel</h2>
+<p>So, let&#39;s create this secure tunnel step by step. Let&#39;s suppose the following:
+
+</p>
+<ol>
+<li>all parts are running on local machine (for the sake of simplicity)</li>
+<li>mongod.exe listening port is 50080</li>
+<li>sslserver listening port is 80443</li>
+<li>sslclient listening port is 50081</li>
+</ol>
+<h3>step 1: installation</h3>
+<p>Please download the <a href="http://nodejs.org/#download">latest node</a>. Open <em>cmd</em> and install ssltunnel package via npm. I&#39;ll install it on c:\ (I run Windows).
+
+</p>
+<p><code>anydir/&gt; cd /d c:\</code>
+<code>c:\&gt; npm install ssltunnel</code>
+
+</p>
+<p>You should now see <em>node_module</em> directory created under c:\ . Congratulations, you&#39;ve successfully install ssltunnel :)
+
+</p>
+<h3>step 2: running the mongo server</h3>
+<p>If you don&#39;t have mongo please <a href="http://www.mongodb.org/downloads">download</a> the latest version now. Extract it in the directory of your choice. Run <em>cmd</em> and navigate to this directory. Now you can run the server. For the sake of simplicity I instruct it to put data in <em>data\db</em> folder.
+
+</p>
+<p><code>d:\src\mongodb-win32-x86_64-2.0.2\bin&gt;mongod --port 50080 --dbpath data\db</code>
+
+</p>
+<p>You should see something like this:
+
+</p>
+<pre><code>Tue Mar 27 16:41:56 [initandlisten] MongoDB starting : pid=3232 port=50080 dbpath=data\db 64-bit host=Dimast-laptop
+Tue Mar 27 16:41:56 [initandlisten] db version v2.0.2, pdfile version 4.5
+Tue Mar 27 16:41:56 [initandlisten] git version: 514b122d308928517f5841888ceaa4246a7f18e3
+Tue Mar 27 16:41:56 [initandlisten] build info: windows (6, 1, 7601, 2, &#39;Service Pack 1&#39;) BOOST_LIB_VERSION=1_42
+Tue Mar 27 16:41:56 [initandlisten] options: { dbpath: &quot;data\db&quot;, port: 50080 }
+Tue Mar 27 16:41:56 [initandlisten] journal dir=data/db/journal
+Tue Mar 27 16:41:56 [initandlisten] recover : no journal files present, no recovery needed
+Tue Mar 27 16:41:56 [initandlisten] waiting for connections on port 50080
+Tue Mar 27 16:41:56 [websvr] admin web console waiting for connections on port 51080</code></pre>
+<h3>step 3: establishing the tunnel</h3>
+<p>Let&#39;s navigate to the <em>bin</em> directory of ssltunnel:
+
+</p>
+<p><code>c:\&gt;cd c:\node_modules\ssltunnel\bin</code>
+
+</p>
+<p>Now we will create sslserver. Note that you need server certificate with private key and public client certificate in order to be able to verify the client. I have provided test certificates as part of the package. <em>Please generate and use your own for production systems</em>. See how to do it <a href="https://github.com/anodejs/node-ssltunnel">here</a>. 
+
+</p>
+<p>So we instruct the sslserver (<em>-r server</em>) to listen on port <em>50443</em> and connect to back end server on host <em>localhost</em> (the default, actually) and port <em>50080</em>. We also provide public and private server certificates and public client certificate which are stored in decrypted pem files. 
+
+</p>
+<pre><code>c:\node_modules\ssltunnel\bin&gt;ssltunnel.cmd 
+  -r server 
+  --proxy_port 50443 
+  --server_port 50080 
+  --server-host localhost 
+  --srv_pub_cert ..\testcerts\sc_public.pem 
+  --srv_prv_cert ..\testcerts\sc_private.pem 
+  --clt_pub_cert ..\testcerts\cc_public.pem</code></pre>
+<p>This is the output you should get:
+
+</p>
+<pre><code>Running &#39;server&#39; role. Listening on 50443, decrypting and forwarding to real server machine on localhost:50080
+ssltunnel&#39;s server is listening on port: 50443</code></pre>
+<p>Now let&#39;s fire the client:
+
+</p>
+<p>Here we instruct the sslproxy (<em>-r client</em>) to listen on port <em>50081</em> and connect to sslserver on host <em>localhost</em> (also the default) and port <em>50443</em>. We also provide public and private client certificates and sslserver&#39;s public certificate. 
+
+</p>
+<pre><code>c:\node_modules\ssltunnel\bin&gt;ssltunnel.cmd 
+  -r client 
+  --proxy_port 50081 
+  --server_port 50443 
+  --server-host localhost 
+  --srv_pub_cert ..\testcerts\sc_public.pem 
+  --clt_pub_cert ..\testcerts\cc_public.pem 
+  --clt_prv_cert ..\testcerts\cc_private.pem</code></pre>
+<p>You should see something like this:
+
+</p>
+<pre><code>Running &#39;client&#39; role. Listening on 50081, encrypting and forwarding to ssltunnel&#39;s server on localhost:50443
+ssltunnel&#39;s client is listening on port: 50081</code></pre>
+<p>Congrats! You have an established secure tunnel. 
+
+</p>
+<h3>step 3: connecting though the tunnel</h3>
+<p>Let&#39;s try to connect now. Fire up <em>cmd</em> and navigate to mongo&#39;s bing directory. Then run mongo.exe and instruct it to connect to <em>localhost:50081</em>.
+
+</p>
+<pre><code>d:\src\mongodb-win32-x86_64-2.0.2\bin&gt;mongo localhost:50081
+MongoDB shell version: 2.0.2
+connecting to: localhost:50081/test
+&gt; show dbs
+local   (empty)
+test    0.078125GB
+&gt;</code></pre>
+<p>You have successfully connected to your mongo server through ssltunnel!
+
+</p>
+<h2>Epilogue</h2>
+<p>Few additional words on this. In addition to the above ssltunnel enables setting TCP keep-alive between sslproxy and sslserver. This makes it possible to overcome problems with servers with low TCP timeouts. It also supports setting various logs verbosity. 
+
+</p>
+<p>ssltunnel can also be used via node script. You just populate the <em>options</em> object with all the configuration details and run either <em>ssltunnel.createClient()</em> to create sslproxy or <em>ssltunnel.createServer()</em> to create sslserver. See <a href="https://github.com/anodejs/node-ssltunnel/blob/master/bin/run_ssltunnel.js">this</a> file for example (scroll to the bottom).
+
+
+</p>
+<p>If you use ssltunnel and missing a feature feel free to send a pull request or just ask me to do it. If you have any questions do not hesitate to contact me at dimast@microsoft.com
+
+</p>
+<p>Cheers!
+Dima Stopel
+
+</p>
+
+<hr><div class="comment"><a href="#" data-disqus-identifier="/#securing-mongo-with-ssltunnel" class="comment">Leave a comment</a><img src="data:image/gif;base64,R0lGODlhEAALAPQAAP///z2LqeLt8dvp7u7090GNqz2LqV+fuJ/F1IW2ycrf51aatHWswaXJ14i4ys3h6FmctUCMqniuw+vz9eHs8fb5+meku+Tu8vT4+cfd5bbT3tbm7PH2+AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA" class="loading"></div><div class="comments"><a href="#" class="nocomment">Hide comments</a><div class="disqus_thread"></div></div></div><hr><div id="launching-anodejsorg" class="entry"><a name="launching-anodejsorg" class="hash">&nbsp;</a><h1>We work at Microsoft and we use node.js</h1><p><small>Posted on Tuesday, March 20, 2012 by <a href="http://eladb.github.com">Elad Ben-Israel</a></small><br/></p><p>We recently spent some time with <a href="http://channel9.msdn.com/Blogs/Charles/anode-An-Experimental-nodejs-Platform-for-Windows-Azure">Charles Torre from Channel 9</a>, discussing node.js at Microsoft and the project we have been working on, <strong>anode</strong>. 
 
 </p>
 <iframe style="height:288px;width:512px" src="http://channel9.msdn.com/Blogs/Charles/anode-An-Experimental-nodejs-Platform-for-Windows-Azure/player?w=512&h=288" frameBorder="0" scrolling="no"></iframe>
@@ -90,26 +222,7 @@
 </p>
 <p>Feel free to <a href="https://github.com/anodejs">contact us</a> if you have any questions or comments,<br><strong>The anode crew</strong></p>
 
-<hr><div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'anodejs';
-    var disqus_developer = 0;
-    var disqus_identifier = '/#launching-anodejsorg';
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); 
-        dsq.type = 'text/javascript'; 
-        dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>
-  Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-</noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-</div><div class="span4"><div class="sidebar-nav"><ul class="nav nav-list"><p>All our modules are available on <a href='https://github.com/anodejs'>GitHub</a> and published under the <a href='http://en.wikipedia.org/wiki/MIT_License'>MIT License</a>.</p><p>We welcome contributions and feedback!</p><div class="well"><li class="nav-header"><h3><a href="https://github.com/anodejs/node-rinuts">rinuts</a></h3></li><dl><dt></dt><p>An HTTP server which exposes unit tests via REST API.<br/>Rinuts is extensible via 'rinuts-drivers'. Currently, we maintain: <ul><li>A <a href='https://github.com/urigolani/rinuts-nodeunitDriver'>nodeunit</a> driver</li><li>An mstest (!!) driver for Windows</li></ul></p><dt></dt><p class="usage">Each app that runs on <i>anode</i> may choose to expose black box tests using <strong>rinuts</strong> (or rinuts-compatible HTTP API). This allows us to automatically run app tests against any version of the code when we integrate code into master or during development.</p></dl><a href="https://github.com/anodejs/node-rinuts" class="btn">Source &raquo;</a><span class="credits"><a href="https://github.com/urigolani">urig</a></span></div><div class="well"><li class="nav-header"><h3><a href="https://github.com/anodejs/node-docrouter">docrouter</a></h3></li><dl><dt></dt><p>A Connect/Express router wrapper which exposes a formatted description of the available services of a server. The documentation is available is multiple formats (Html, Wadl, Json).</p><dt></dt><p class="usage">We use <strong>docrouter</strong> to automatically create documentation and command line completion of our internal APIs and for APIs of apps created on top of <i>anode</i>.</p></dl><a href="https://github.com/anodejs/node-docrouter" class="btn">Source &raquo;</a><span class="credits"><a href="https://github.com/saary">saary</a>,
+<hr><div class="comment"><a href="#" data-disqus-identifier="/#launching-anodejsorg" class="comment">Leave a comment</a><img src="data:image/gif;base64,R0lGODlhEAALAPQAAP///z2LqeLt8dvp7u7090GNqz2LqV+fuJ/F1IW2ycrf51aatHWswaXJ14i4ys3h6FmctUCMqniuw+vz9eHs8fb5+meku+Tu8vT4+cfd5bbT3tbm7PH2+AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA" class="loading"></div><div class="comments"><a href="#" class="nocomment">Hide comments</a><div class="disqus_thread"></div></div></div><hr></div><div class="span4"><div class="sidebar-nav"><ul class="nav nav-list"><p>All our modules are available on <a href='https://github.com/anodejs'>GitHub</a> and published under the <a href='http://en.wikipedia.org/wiki/MIT_License'>MIT License</a>.</p><p>We welcome contributions and feedback!</p><div class="well"><li class="nav-header"><h3><a href="https://github.com/anodejs/node-rinuts">rinuts</a></h3></li><dl><dt></dt><p>An HTTP server which exposes unit tests via REST API.<br/>Rinuts is extensible via 'rinuts-drivers'. Currently, we maintain: <ul><li>A <a href='https://github.com/urigolani/rinuts-nodeunitDriver'>nodeunit</a> driver</li><li>An mstest (!!) driver for Windows</li></ul></p><dt></dt><p class="usage">Each app that runs on <i>anode</i> may choose to expose black box tests using <strong>rinuts</strong> (or rinuts-compatible HTTP API). This allows us to automatically run app tests against any version of the code when we integrate code into master or during development.</p></dl><a href="https://github.com/anodejs/node-rinuts" class="btn">Source &raquo;</a><span class="credits"><a href="https://github.com/urigolani">urig</a></span></div><div class="well"><li class="nav-header"><h3><a href="https://github.com/anodejs/node-docrouter">docrouter</a></h3></li><dl><dt></dt><p>A Connect/Express router wrapper which exposes a formatted description of the available services of a server. The documentation is available is multiple formats (Html, Wadl, Json).</p><dt></dt><p class="usage">We use <strong>docrouter</strong> to automatically create documentation and command line completion of our internal APIs and for APIs of apps created on top of <i>anode</i>.</p></dl><a href="https://github.com/anodejs/node-docrouter" class="btn">Source &raquo;</a><span class="credits"><a href="https://github.com/saary">saary</a>,
 <a href="https://github.com/gilad61">gilado</a>,
 <a href="https://github.com/amiturgman">amiturgman</a></span></div><div class="well"><li class="nav-header"><h3><a href="https://github.com/anodejs/node-gits">gits</a></h3></li><dl><dt></dt><p>A Windows-friendly <a href='http://git-scm.com/'>git</a> wrapper for node.js with some useful sugar.</p><dt></dt><p class="usage">Deployment on <i>anode</i> uses git and <a href='https://github.com'>github</a>. Whenever we push stuff upstream, a github post-commit trigger is sent to our system and broadcasted to all the servers. We use <strong>gits</strong> to mirror the local filesystem from the remote repository and deploy apps continuously onto the various clusters.</p></dl><a href="https://github.com/anodejs/node-gits" class="btn">Source &raquo;</a><span class="credits"><a href="https://github.com/gilad61">gilado</a>,
 <a href="https://github.com/yosefd">yosefd</a>,
@@ -123,4 +236,4 @@
 built with
 <a href="http://twitter.github.com/bootstrap">bootstrap</a>, 
 <a href="http://jade-lang.com">jade</a>,
-<a href="https://github.com/chjj/marked">marked</a></footer></div></body><script type="text/javascript" src="js/jquery-1.7.1.min.js"></script><script type="text/javascript" src="js/analytics.js"></script></html>
+<a href="https://github.com/chjj/marked">marked</a></footer></div></body><script type="text/javascript" src="js/jquery-1.7.1.min.js"></script><script type="text/javascript" src="js/index.js"></script></html>
