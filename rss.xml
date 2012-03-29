@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[anode@microsoft]]></title><description><![CDATA[anode@microsoft blog]]></description><link>http://anodejs.org</link><generator>NodeJS RSS Module</generator><lastBuildDate>Thu, 29 Mar 2012 13:45:21 GMT</lastBuildDate><atom:link href="http://anodejs.org/rss.xml" rel="self" type="application/rss+xml"/><item><title><![CDATA[Securing MongoDB traffic with ssltunnel on Windows]]></title><description><![CDATA[<h1>Securing MongoDB traffic with ssltunnel on Windows</h1><p><small>Posted on Thursday, March 29, 2012 by <a href="https://github.com/dimastopel">Dima Stopel</a></small><br/></p><p>Hi guys,
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[anode@microsoft]]></title><description><![CDATA[anode@microsoft blog]]></description><link>http://anodejs.org</link><generator>NodeJS RSS Module</generator><lastBuildDate>Thu, 29 Mar 2012 13:47:59 GMT</lastBuildDate><atom:link href="http://anodejs.org/rss.xml" rel="self" type="application/rss+xml"/><item><title><![CDATA[Securing MongoDB traffic with ssltunnel on Windows]]></title><description><![CDATA[<h1>Securing MongoDB traffic with ssltunnel on Windows</h1><p><small>Posted on Thursday, March 29, 2012 by <a href="https://github.com/dimastopel">Dima Stopel</a></small><br/></p><p>Hi guys,
 
 </p>
 <p>Today I&#39;d like to discuss ssltunnel. So, what is it? ssltunnel is a lightweight TCP over SSL / TLS tunnel running over node. If you need to add confidentiality (privacy), integrity, and authenticity to your TCP stream this is the tool for you. ssltunnel is available as node package via <a href="http://search.npmjs.org/#/ssltunnel">npm</a>. It is distributed under MIT license. 
@@ -27,10 +27,8 @@
 <p>Please download the <a href="http://nodejs.org/#download">latest node</a>. Open <em>cmd</em> and install ssltunnel package via npm. I&#39;ll install it on c:\ (I run Windows).
 
 </p>
-<p><code>anydir/&gt; cd /d c:\</code>
-<code>c:\&gt; npm install ssltunnel</code>
-
-</p>
+<pre><code>anydir/&gt; cd /d c:\
+c:\&gt; npm install ssltunnel</code></pre>
 <p>You should now see <em>node_module</em> directory created under c:\ . Congratulations, you&#39;ve successfully install ssltunnel :)
 
 </p>

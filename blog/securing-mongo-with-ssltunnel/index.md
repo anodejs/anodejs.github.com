@@ -23,8 +23,10 @@ So, let's create this secure tunnel step by step. Let's suppose the following:
 
 Please download the [latest node](http://nodejs.org/#download). Open *cmd* and install ssltunnel package via npm. I'll install it on c:\ (I run Windows).
 
-`anydir/> cd /d c:\`
-`c:\> npm install ssltunnel`
+```
+anydir/> cd /d c:\
+c:\> npm install ssltunnel
+```
 
 You should now see *node_module* directory created under c:\ . Congratulations, you've successfully install ssltunnel :)
 
