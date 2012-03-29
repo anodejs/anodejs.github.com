@@ -1,5 +1,5 @@
 {
-  "title": "Securing MongoDB traffic with ssltunnel",
+  "title": "Securing MongoDB traffic with ssltunnel on Windows",
   "author": "dimast",
   "date": "2012-03-29",
   "tags": [ "mongodb", "mongo", "ssl", "security", "tunnel", "ssltunnel" ]
