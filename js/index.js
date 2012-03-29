@@ -24,6 +24,16 @@ $(function() {
     $('#disqus_thread').removeAttr('id');
     $entry.find('div.disqus_thread').attr('id', 'disqus_thread');
 
+    if (DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: function () {
+          this.page.identifier = disqus_identifier;
+          this.page.url = disqus_url + disqus_identifier;
+        }
+      });
+    }
+
     // Reload DISQUS script
     $.getScript('http://' + disqus_shortname + '.disqus.com/embed.js', function() {
       $entry.find('div.comment').slideUp();
