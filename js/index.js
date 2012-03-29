@@ -1,13 +1,9 @@
+// Taken from http://collaborable.com/blog/disqus-jquery-hack-awesome-ux
+var disqus_shortname = 'anodejs';
+var disqus_identifier = '';
+
 $(function() {
   $.get('http://org.msproto.net/analytics/hit');
-
-  //
-  // http://collaborable.com/blog/disqus-jquery-hack-awesome-ux
-  //
-
-  var disqus_shortname = 'anodejs';
-  var disqus_url = 'http://anodejs.org';
-  var disqus_identifier = '';
 
   // Leave a comment/cancel.
   $('.entry a.comment').click(function() {
@@ -23,16 +19,6 @@ $(function() {
     var $entry = $(this).parents('div.entry');
     $('#disqus_thread').removeAttr('id');
     $entry.find('div.disqus_thread').attr('id', 'disqus_thread');
-
-    if (typeof DISQUS !== 'undefined') {
-      DISQUS.reset({
-        reload: true,
-        config: function () {
-          this.page.identifier = disqus_identifier;
-          this.page.url = disqus_url + disqus_identifier;
-        }
-      });
-    }
 
     // Reload DISQUS script
     $.getScript('http://' + disqus_shortname + '.disqus.com/embed.js', function() {
