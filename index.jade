@@ -29,8 +29,8 @@ html(lang='en')
           br
           .row
           - blog.forEach(function(post) {
-            .entry(id=post.name)
-              a.hash(name=post.name) &nbsp;
+            a.hash(name=post.name) &nbsp;
+            .entry(id='entry-' + post.name)
               | !{post.html}
               hr
               .comment
@@ -59,6 +59,15 @@ html(lang='en')
                   p !{p.desc}
                   dt
                   p.usage !{p.usage}
+                  dt
+                  - if (p.refs) {
+                    h4 References
+                    - p.refs.forEach(function(ref) {
+                      ul
+                        li
+                          a(href=ref.href)=ref.title
+                    - });
+                  - }
 
                 a.btn(href='#{p.url}') Source &raquo;
                 span.credits
