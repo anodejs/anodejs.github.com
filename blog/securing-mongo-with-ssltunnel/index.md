@@ -80,7 +80,8 @@ Now let's fire the client:
 
 Here we instruct the sslproxy (*-r client*) to listen on port *50081* and connect to sslserver on host *localhost* (also the default) and port *50443*. We also provide public and private client certificates and sslserver's public certificate. 
 
-```c:\node_modules\ssltunnel\bin>ssltunnel.cmd 
+```
+c:\node_modules\ssltunnel\bin>ssltunnel.cmd 
   -r client 
   --proxy_port 50081 
   --server_port 50443 
