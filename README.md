@@ -4,13 +4,14 @@
 
 #### 1. Clone this repository (or fetch/rebase)
 
-##### Clone
+##### Clone (new work tree)
 
 ```bash
 $ git clone git@github.com:anodejs/anodejs.github.com.git blog
+$ cd blog
 ```
 
-##### Fetch/rebase
+##### Fetch/rebase (existing work tree)
 
 ```bash
 $ cd blog
@@ -21,8 +22,7 @@ $ git rebase origin/master
 #### 2. Run build
 
 ```bash
-$ cd blog
-$ ./build.js
+$ node build.js
 ```
 
 Build will modify two files:
