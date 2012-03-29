@@ -24,7 +24,7 @@ $(function() {
     $('#disqus_thread').removeAttr('id');
     $entry.find('div.disqus_thread').attr('id', 'disqus_thread');
 
-    if (DISQUS) {
+    if (typeof DISQUS !== 'undefined') {
       DISQUS.reset({
         reload: true,
         config: function () {
