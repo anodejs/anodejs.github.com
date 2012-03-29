@@ -1,6 +1,6 @@
 {
   "title": "Securing MongoDB traffic with ssltunnel on Windows",
-  "author": "dimastopel",
+  "author": "dimast",
   "date": "2012-03-29",
   "tags": [ "mongodb", "mongo", "ssl", "tls", "security", "tunnel", "ssltunnel" ]
 }
