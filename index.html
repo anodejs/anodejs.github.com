@@ -8,11 +8,11 @@
 </style><link href="css/index.css" rel="stylesheet"></head><body><div class="navbar navbar-fixed-top"><div class="navbar-inner"><div class="container"><a href="#" class="brand"><strong>anode@microsoft</strong> blog</a><ul class="nav"></ul></div></div></div><div class="container"><div class="row"><div class="span8"><br><br><div class="row"></div><div id="securing-mongo-with-ssltunnel" class="entry"><a name="securing-mongo-with-ssltunnel" class="hash">&nbsp;</a><h1>Securing MongoDB traffic with ssltunnel on Windows</h1><p><small>Posted on Thursday, March 29, 2012 by <a href="https://github.com/dimastopel">Dima Stopel</a></small><br/></p><p>Hi guys,
 
 </p>
-<p>Today I&#39;d like to discuss ssltunnel. So, what is it? ssltunnel is a lightweight TCP over SSL / TLS tunnel running over node. If you need to add confidentiality (privacy), integrity, and authenticity to your TCP stream this is the tool for you. ssltunnel is available as node package via <a href="http://search.npmjs.org/#/ssltunnel">npm</a>. It is distributed under MIT license. 
+<p>Today I&#39;d like to discuss <a href="https://github.com/anodejs/node-ssltunnel">ssltunnel</a>. So, what is it? ssltunnel is a lightweight TCP over SSL / TLS tunnel running over node. If you need to add confidentiality (privacy), integrity, and authenticity to your TCP stream this is the tool for you. ssltunnel is available as node package via <a href="http://search.npmjs.org/#/ssltunnel">npm</a>. It is distributed under MIT license. 
 
 </p>
 <h2>Intro</h2>
-<p>In order to make the discussion about the deeper parts more concrete let&#39;s take a concrete example. Let&#39;s say that you use mongodb as your database and you need to connect to your CLI client (mongo.exe) running on you PC to your mongo server (mongod.exe) running on your remote VM. Now suppose that you want to assure that all the traffic is encrypted and that only you can connect to your mongo server. Here ssltunnel becomes handy. 
+<p>In order to make the discussion about the deeper parts more concrete let&#39;s take a concrete example. Let&#39;s say that you use mongodb as your database and you need to connect to your CLI client (mongo.exe) running on you PC to your mongo server (mongod.exe) running on your remote VM. Now suppose that you want to assure that all the traffic is encrypted and that only you can connect to your mongo server. Here ssltunnel becomes handy.
 
 </p>
 <p>ssltunnel consists of two parts: <em>sslproxy</em> and <em>sslserver</em>. The sslproxy part is running on the client machine communicating with the real client, mongo.exe in our case, and sslserver. The sslserver part is running on the server machine and communicating with sslproxy and the back-end server, mongod.exe in our case. sslproxy authenticates sslserver via SSL server certificate. sslserver authenticates sslproxy via SSL client certificate. The traffic itself is encrypted using standard SSL / TLS protocol.
@@ -25,9 +25,9 @@
 </p>
 <ol>
 <li>all parts are running on local machine (for the sake of simplicity)</li>
-<li>mongod.exe listening port is 50080</li>
-<li>sslserver listening port is 80443</li>
-<li>sslclient listening port is 50081</li>
+<li><code>mongod.exe</code> listening port is 50080</li>
+<li><code>sslserver</code> listening port is 80443</li>
+<li><code>sslclient</code> listening port is 50081</li>
 </ol>
 <h3>step 1: installation</h3>
 <p>Please download the <a href="http://nodejs.org/#download">latest node</a>. Open <em>cmd</em> and install ssltunnel package via npm. I&#39;ll install it on c:\ (I run Windows).
@@ -35,16 +35,17 @@
 </p>
 <pre><code>anydir/&gt; cd /d c:\
 c:\&gt; npm install ssltunnel</code></pre>
-<p>You should now see <em>node_module</em> directory created under c:\ . Congratulations, you&#39;ve successfully install ssltunnel :)
+<p>You should now see <em>node_modules</em> directory created under <code>c:\</code>. Congratulations, you&#39;ve successfully install 
+ssltunnel :)
 
 </p>
 <h3>step 2: running the mongo server</h3>
-<p>If you don&#39;t have mongo please <a href="http://www.mongodb.org/downloads">download</a> the latest version now. Extract it in the directory of your choice. Run <em>cmd</em> and navigate to this directory. Now you can run the server. For the sake of simplicity I instruct it to put data in <em>data\db</em> folder.
+<p>If you don&#39;t have mongo please <a href="http://www.mongodb.org/downloads">download</a> the latest version now. 
+Extract it in the directory of your choice. Run <em>cmd</em> and navigate to this directory. Now you can run the server. 
+For the sake of simplicity I instruct it to put data in <em>data\db</em> folder.
 
 </p>
-<p><code>d:\src\mongodb-win32-x86_64-2.0.2\bin&gt;mongod --port 50080 --dbpath data\db</code>
-
-</p>
+<pre><code>d:\src\mongodb-win32-x86_64-2.0.2\bin&gt;mongod --port 50080 --dbpath data\db</code></pre>
 <p>You should see something like this:
 
 </p>
@@ -61,13 +62,16 @@ Tue Mar 27 16:41:56 [websvr] admin web console waiting for connections on port 5
 <p>Let&#39;s navigate to the <em>bin</em> directory of ssltunnel:
 
 </p>
-<p><code>c:\&gt;cd c:\node_modules\ssltunnel\bin</code>
+<pre><code>c:\&gt;cd c:\node_modules\ssltunnel\bin</code></pre>
+<p>Now we will create sslserver. Note that you need server certificate with private key and public client certificate 
+in order to be able to verify the client. I have provided test certificates as part of the package. 
+<em>Please generate and use your own for production systems</em>. 
+See how to do it <a href="https://github.com/anodejs/node-ssltunnel">here</a>. 
 
 </p>
-<p>Now we will create sslserver. Note that you need server certificate with private key and public client certificate in order to be able to verify the client. I have provided test certificates as part of the package. <em>Please generate and use your own for production systems</em>. See how to do it <a href="https://github.com/anodejs/node-ssltunnel">here</a>. 
-
-</p>
-<p>So we instruct the sslserver (<em>-r server</em>) to listen on port <em>50443</em> and connect to back end server on host <em>localhost</em> (the default, actually) and port <em>50080</em>. We also provide public and private server certificates and public client certificate which are stored in decrypted pem files. 
+<p>So we instruct the sslserver (<em>-r server</em>) to listen on port <em>50443</em> and connect to back end server on 
+host <em>localhost</em> (the default, actually) and port <em>50080</em>. We also provide public and private server certificates
+and public client certificate which are stored in decrypted pem files. 
 
 </p>
 <pre><code>c:\node_modules\ssltunnel\bin&gt;ssltunnel.cmd 
@@ -83,10 +87,12 @@ Tue Mar 27 16:41:56 [websvr] admin web console waiting for connections on port 5
 </p>
 <pre><code>Running &#39;server&#39; role. Listening on 50443, decrypting and forwarding to real server machine on localhost:50080
 ssltunnel&#39;s server is listening on port: 50443</code></pre>
-<p>Now let&#39;s fire the client:
+<p>Now let&#39;s start the client:
 
 </p>
-<p>Here we instruct the sslproxy (<em>-r client</em>) to listen on port <em>50081</em> and connect to sslserver on host <em>localhost</em> (also the default) and port <em>50443</em>. We also provide public and private client certificates and sslserver&#39;s public certificate. 
+<p>Here we instruct the sslproxy (<em>-r client</em>) to listen on port <em>50081</em> and connect to sslserver on 
+host <em>localhost</em> (also the default) and port <em>50443</em>. We also provide public and private client certificates and 
+sslserver&#39;s public certificate.
 
 </p>
 <pre><code>c:\node_modules\ssltunnel\bin&gt;ssltunnel.cmd 
@@ -106,7 +112,8 @@ ssltunnel&#39;s client is listening on port: 50081</code></pre>
 
 </p>
 <h3>step 3: connecting though the tunnel</h3>
-<p>Let&#39;s try to connect now. Fire up <em>cmd</em> and navigate to mongo&#39;s bing directory. Then run mongo.exe and instruct it to connect to <em>localhost:50081</em>.
+<p>Let&#39;s try to connect now. Fire up <em>cmd</em> and navigate to mongo&#39;s bing directory. Then run mongo.exe and instruct 
+it to connect to <em>localhost:50081</em>.
 
 </p>
 <pre><code>d:\src\mongodb-win32-x86_64-2.0.2\bin&gt;mongo localhost:50081
@@ -130,10 +137,7 @@ test    0.078125GB
 <p>If you use ssltunnel and missing a feature feel free to send a pull request or just ask me to do it. If you have any questions do not hesitate to contact me at dimast@microsoft.com
 
 </p>
-<p>Cheers!
-Dima Stopel
-
-</p>
+<p>Cheers!<br><a href="https://github.com/dimastopel">Dima Stopel</a></p>
 
 <hr><div class="comment"><a href="#" data-disqus-identifier="/#securing-mongo-with-ssltunnel" class="comment">Leave a comment</a><img src="data:image/gif;base64,R0lGODlhEAALAPQAAP///z2LqeLt8dvp7u7090GNqz2LqV+fuJ/F1IW2ycrf51aatHWswaXJ14i4ys3h6FmctUCMqniuw+vz9eHs8fb5+meku+Tu8vT4+cfd5bbT3tbm7PH2+AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA" class="loading"></div><div class="comments"><a href="#" class="nocomment">Hide comments</a><div class="disqus_thread"></div></div></div><hr><div id="launching-anodejsorg" class="entry"><a name="launching-anodejsorg" class="hash">&nbsp;</a><h1>We work at Microsoft and we use node.js</h1><p><small>Posted on Tuesday, March 20, 2012 by <a href="http://eladb.github.com">Elad Ben-Israel</a></small><br/></p><p>We recently spent some time with <a href="http://channel9.msdn.com/Blogs/Charles/anode-An-Experimental-nodejs-Platform-for-Windows-Azure">Charles Torre from Channel 9</a>, discussing node.js at Microsoft and the project we have been working on, <strong>anode</strong>. 
 
