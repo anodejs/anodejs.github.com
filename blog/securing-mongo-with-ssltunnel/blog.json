@@ -1,0 +1,6 @@
+{
+  "title": "Securing MongoDB traffic with ssltunnel",
+  "author": "dimast",
+  "date": "2012-03-29",
+  "tags": [ "mongodb", "mongo", "ssl", "security", "tunnel", "ssltunnel" ]
+}

@@ -32,3 +32,33 @@ img.contrib {
   padding: 0 0 0 19px;
   background: url("../img/feed-icon-14x14.png") no-repeat 0 50%;
 }
+
+a.hash {
+  position: relative;
+  top: -50px;
+}
+
+div.comments {
+  display: none;
+}
+
+.loading {
+  margin-left: 10px;
+  margin-right: 10px;
+  display: none;
+}
+
+a.comment, a.nocomment {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: small;
+}
+
+a.disabled {
+  color: gray;
+  cursor: default;
+}
+
+a:hover.disabled {
+  text-decoration: none;
+}

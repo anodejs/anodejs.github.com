@@ -82,7 +82,7 @@ function renderRss(blogdir, posts, callback) {
         title:  post.title,
         description: post.html,
         url: 'http://anodejs.org/#' + post.name,
-        author: post.author,
+        author: post.author.name,
         date: post.date,
       };
       

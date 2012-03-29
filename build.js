@@ -38,13 +38,6 @@ function build() {
 			});
 		},
 		function(cb) {
-			return fs.readFile(path.join(__dirname, 'disqus.html'), function(err, data) {
-				if (err) return cb(err);
-				options.disqus = data.toString();
-				return cb();
-			});
-		},
-		function(cb) {
 			return jade.renderFile(jadeFile, options, function(err, html) {
 				if (err) return cb(err);
 				return fs.writeFile(outputFile, html, function(err) {
