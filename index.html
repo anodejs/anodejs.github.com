@@ -8,7 +8,7 @@
 
 </p>
 <p>So, now that our <a href="http://anodejs.org">anode</a> farm is being used for prototyping as well as for production services, it&#39;s time to talk a bit of how we manage and track our applications.
-For this, let me introduce you to <a href="https://github.com/amiturgman/aCLI">ACLI</a>.
+For this, let me introduce you to <a href="https://github.com/amiturgman/ACLI">Anode Command Line Interface</a>.
 
 </p>
 <p>ACLI is a command line interface, developed mainly for the use in the <a href="http://anodejs.org">anode project</a>.  
@@ -17,7 +17,7 @@ For this, let me introduce you to <a href="https://github.com/amiturgman/aCLI">A
 <p><strong>Why do you need another command line interface, there are already few out there...</strong><br>Well, that&#39;s true... but believe me, the things this eyes have seen...
 
 </p>
-<p><strong>No, really... why do you need another command line interface?</strong><br>From my exploration, they were&#39;nt very easy to use. Some were too buggy, some couldn&#39;t get html objects as a command execution result, and others were too limited of how to configure the control look &amp; feel, command line prompt text, and so... each of the existing CLIs out there had some of the required functionality, but did not support other features that we needed.<br>The most suitable library for our needs was the <a href="https://github.com/mozilla/gcli">GCLI</a> component, which was the main inspiration for implementing ACLI, mostly in the area of the command structure.
+<p><strong>No, really... why do you need another command line interface?</strong><br>From my experience they were&#39;nt very easy to use. Some were too buggy, some couldn&#39;t get HTML objects as a command execution result, and others were too limited of how to configure the control look &amp; feel, command line prompt text, and more... each of the existing CLIs had some of the required functionality, but did not support other features that we needed.<br>The most suitable library for our needs was the <a href="https://github.com/mozilla/gcli">GCLI</a> component, which was the main inspiration for implementing ACLI, mostly in the area of the command structure.
 
 </p>
 <p><strong>What are you using it for?</strong><br>We use it to
@@ -36,6 +36,7 @@ For this, let me introduce you to <a href="https://github.com/amiturgman/aCLI">A
 <li>Restarting an application</li>
 </ul>
 </li>
+<li>Each application that is hosted on the farm implements its own plugin that is integrated into the console, and allows the developers to manage it with its own specific set of commands.</li>
 <li>View logs for our applications, filtered by verbosity level and other params</li>
 <li>Invoking end-to-end tests and viewing results</li>
 </ul>
@@ -45,45 +46,44 @@ For this, let me introduce you to <a href="https://github.com/amiturgman/aCLI">A
 </p>
 <ul>
 <li>Supports plugins- remote commands (remote service REST APIs) integrated into the console, using <a href="https://github.com/anodejs/node-docrouter">docRouter</a> metadata.<br>  Supporting plugins with client side processing and styling.  </li>
-<li>Visualizing json data as an html table with auto collapsing deep elements.</li>
+<li>Visualizing json data as an HTML table with auto collapsing deep elements.</li>
 <li>Supporting broadcasting requests when working on a farm.</li>
 <li>Managing environment variables and use them as part of the commands.</li>
 <li>Keeping command line history, plugins and environment variables persistent.</li>
 <li>Supporting working in parallel with few instances/tabs of the console.</li>
 </ul>
-<p><img src="https://github.com/amiturgman/aCLI/raw/master/cli_myboard_small.jpg" alt="Example for &#39;My Board&#39; feature" title="aCLI with My Board">
+<p><img src="https://github.com/amiturgman/ACLI/raw/master/cli_myboard_small.jpg" alt="Example for &#39;My Board&#39; feature" title="ACLI with My Board">
 
 </p>
 <h2>So, why is this so exciting?</h2>
 <ol>
-<li><p>Since acli supports <strong>plugins</strong>, it&#39;s easy to use it as a <strong>management tool in any node.JS application</strong>.<br>Let&#39;s assume you develop a website using nodeJS. You can create another page under <code>/management</code> which will host acli, and then on the server side, implement any management api that will be integrated into the console as a command, such as getting logs, getting list of users, making operations on users, and everything you can think of.<br><em>Protecting this area by authentication/authorization mechanism will also be a good idea :)</em>       </p>
+<li><p>Since ACLI supports <strong>plugins</strong>, it&#39;s easy to use it as a <strong>management tool in any node.js application</strong>.<br>Let&#39;s assume you develop a website using nodeJS. You can create another page under <code>/management</code> which will host ACLI, and then on the server side, implement any REST API that will be integrated into the console as a command, such as getting logs, getting list of users, making operations on users, and everything you can think of.<br><em>Protecting this area by authentication/authorization mechanism will also be a good idea :)</em>       </p>
 </li>
-<li><p>The powerfull <strong>internal json-view</strong> control, which visualizes any json object provides a very easy-to-begin-with json-result visualizer.<br>You can start creating server side commands which are integrated into the console, without writing any client-side code. If you&#39;de like more advanced/custom look for the results, you&#39;ll be able to add client side handler that generates any html/jQuery object in later stages. The server side can also return html instead of a json object of course.  </p>
+<li><p>The powerful <strong>internal json-view</strong> control, which visualizes any json object provides a very easy-to-begin-with json-result visualizer.<br>You can start creating server side commands which are integrated into the console, without writing any client-side code. If you&#39;d like more advanced/custom look for the results, you&#39;ll be able to add client side handler that generates any HTML/jQuery object in later stages. The server side can also return HTML instead of a json object of course.  </p>
 </li>
-<li><p>Assuming that you are working on a <strong>farm</strong>, you will be able to create a command that <strong>collects data from all servers</strong> on the farm, displaying the progress of the process and then when all data is collected, displaying the results! This is a very powerfull feature that allows you to create commands that collect the status from all servers, or invoking an action on all servers, such as reseting the application.  </p>
+<li><p>Assuming that you are working on a <strong>farm</strong>, you will be able to create a command that <strong>collects data from all servers</strong>, displaying the progress of the process and then when all data is collected, displaying the results! This is a very powerful feature that allows you to create commands that collect the status from all servers, or invoking an action on all servers, such as resetting the application.  </p>
 </li>
 <li><p><strong>Managing environment variables</strong> like any other native CLI will allow you to use them as part of any command </p>
 <ol>
-<li>Implicitely- for example as an environment variable default value for a parameter in a command, or </li>
-<li>Explicitely- by using the <code>$</code> sign such as <code>log --top $myTop</code>.</li>
+<li>Implicitly- for example as an environment variable default value for a parameter in a command, or </li>
+<li>Explicitly- by using the <code>$</code> sign such as <code>log --top $myTop</code>.</li>
 </ol>
 </li>
-<li><p>The console <strong>automatically keeps the state</strong> of the environment variables, the command line history and the installed plugins in the <strong>local stoarge</strong>.<br>Every time we open the console, it will be in the exact state that it was when we last closed it. You won&#39;t have to install the plugins again, or re-set environment values.
-In addition to that, the state is kept <strong>per each session/tab</strong> that we opened. This way we can create several <strong>work spaces</strong> in which each one of them has certain environment variables, certain installed plugins, and so on... and all that in the context of the application that we are managaing.</p>
+<li><p>The console <strong>automatically keeps the state</strong> of the environment variables, the command line history and the installed plugins in the <strong>local storage</strong>.<br>Every time you open the console, it will be in the exact state that it was when you last closed it. You won&#39;t have to install the plugins again, or re-set environment values. In addition to that, the state is kept <strong>per each session/tab</strong> that we opened. This way we can create several <strong>work spaces</strong> in which each one of them has certain environment variables, certain installed plugins, and so on... and all that in the context of the application that we are managing.</p>
 </li>
 <li><p>The <strong>My Board</strong> feature which allows you to keep results <strong>always on screen</strong>. This is kind of a panel/container on the right side of the console, in which you can drag-n-drop any command execution result. In the example above, you can see that i&#39;m keeping the environment variables panel (which is a json-view control by the way) on the <em>My Board</em> panel.
 This way, I can always see the current environment variables setting state (the <code>set -o</code> command returns an online control which will be updated any time an environment variable is updated).
-Of course that this panel can be toggled on/off at any time.  </p>
+This panel can be toggled on/off at any time by pressing on its header.  </p>
 </li>
 </ol>
 <h2>Getting Started</h2>
 <p>The following is an example of how to quickly start using the component.  
 
 </p>
-<p>You can find basic and advanced <a href="https://github.com/amiturgman/aCLI/tree/master/samples">samples</a> which includes a node.JS application with a sample plugin on <a href="https://github.com/amiturgman/aCLI">github</a>.<br>The <a href="https://github.com/amiturgman/aCLI/blob/master/design.md">design</a> document includes all the details needed in order to smoothly start integrating plugins as commands into the console.
+<p>In addition to that, you can find basic and advanced <a href="https://github.com/amiturgman/ACLI/tree/master/samples">samples</a> which include a node.js application with a sample plugin on <a href="https://github.com/amiturgman/ACLI">github</a>.<br>The <a href="https://github.com/amiturgman/ACLI/blob/master/design.md">design</a> document includes all the details needed in order to smoothly start integrating plugins as commands into the console.
 
 </p>
-<p>html file:
+<p>HTML file:
 
 </p>
 <pre><code>&lt;body&gt;
@@ -113,7 +113,7 @@ Of course that this panel can be toggled on/off at any time.  </p>
            welcomeMessage: &quot;Welcome to anode console!&lt;br/&gt;. Type &lt;b&gt;help&lt;/b&gt; to start exploring the commands currently supported!&lt;br/&gt;&quot;
        }
    );</code></pre>
-<p>server side plugin with a command that gets a template and a querystring parameters and retuens a json object:
+<p>server side plugin with a command that gets a template and a querystring parameters and returns a JSON object:
 
 </p>
 <pre><code>var express = require(&#39;express&#39;),
@@ -157,7 +157,7 @@ app.use(docRouter(express.router, &#39;/api/someplugin&#39;, function(app) {
         }
     );
 }));</code></pre>
-<p>You are more than welcome to use this plugin.<br>Your feedback is highly appriciated! feel free to test it, open issues on <a href="https://github.com/amiturgman/aCLI">github</a> or send questions and comments to <a href="mailto:ami.turgman@microsoft.com">Ami Turgman</a>.
+<p>You are more than welcome to use this plugin.<br>Your feedback is highly appreciated! feel free to test it, open issues on <a href="https://github.com/amiturgman/ACLI">github</a> or send questions and comments to <a href="mailto:ami.turgman@microsoft.com">Ami Turgman</a>.
 
 
 
