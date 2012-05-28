@@ -39,7 +39,7 @@ In addition to the obvious features (commands history, clear/help commands), we 
 * Supporting working in parallel with few instances/tabs of the console.
 
 
-![Example for 'My Board' feature](https://github.com/amiturgman/aCLI/raw/master/cli_myboard.jpg "aCLI with My Board")
+![Example for 'My Board' feature](https://github.com/amiturgman/aCLI/raw/master/cli_myboard_small.jpg "aCLI with My Board")
 
 So, why is this so exciting?
 ----------------------------

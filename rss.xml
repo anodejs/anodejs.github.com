@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[anode@microsoft]]></title><description><![CDATA[anode@microsoft blog]]></description><link>http://anodejs.org</link><generator>NodeJS RSS Module</generator><lastBuildDate>Mon, 28 May 2012 15:25:58 GMT</lastBuildDate><atom:link href="http://anodejs.org/rss.xml" rel="self" type="application/rss+xml"/><item><title><![CDATA[Anode Command Line Interface]]></title><description><![CDATA[<h1>Anode Command Line Interface</h1><p><small>Posted on Monday, May 28, 2012 by <a href="https://github.com/amiturgman">Ami Turgman</a></small><br/></p><p>Hi!
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[anode@microsoft]]></title><description><![CDATA[anode@microsoft blog]]></description><link>http://anodejs.org</link><generator>NodeJS RSS Module</generator><lastBuildDate>Mon, 28 May 2012 15:37:14 GMT</lastBuildDate><atom:link href="http://anodejs.org/rss.xml" rel="self" type="application/rss+xml"/><item><title><![CDATA[Anode Command Line Interface]]></title><description><![CDATA[<h1>Anode Command Line Interface</h1><p><small>Posted on Monday, May 28, 2012 by <a href="https://github.com/amiturgman">Ami Turgman</a></small><br/></p><p>Hi!
 
 </p>
 <p>So, now that our <a href="http://anodejs.org">anode</a> farm is being used for prototyping as well as for production services, it&#39;s time to talk a bit of how we manage and track our applications.
@@ -46,7 +46,7 @@ For this, let me introduce you to <a href="https://github.com/amiturgman/aCLI">A
 <li>Keeping command line history, plugins and environment variables persistent.</li>
 <li>Supporting working in parallel with few instances/tabs of the console.</li>
 </ul>
-<p><img src="https://github.com/amiturgman/aCLI/raw/master/cli_myboard.jpg" alt="Example for &#39;My Board&#39; feature" title="aCLI with My Board">
+<p><img src="https://github.com/amiturgman/aCLI/raw/master/cli_myboard_small.jpg" alt="Example for &#39;My Board&#39; feature" title="aCLI with My Board">
 
 </p>
 <h2>So, why is this so exciting?</h2>
