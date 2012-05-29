@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[anode@microsoft]]></title><description><![CDATA[anode@microsoft blog]]></description><link>http://anodejs.org</link><generator>NodeJS RSS Module</generator><lastBuildDate>Mon, 28 May 2012 21:53:21 GMT</lastBuildDate><atom:link href="http://anodejs.org/rss.xml" rel="self" type="application/rss+xml"/><item><title><![CDATA[Anode Command Line Interface]]></title><description><![CDATA[<h1>Anode Command Line Interface</h1><p><small>Posted on Monday, May 28, 2012 by <a href="https://github.com/amiturgman">Ami Turgman</a></small><br/></p><p>Hi!
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[anode@microsoft]]></title><description><![CDATA[anode@microsoft blog]]></description><link>http://anodejs.org</link><generator>NodeJS RSS Module</generator><lastBuildDate>Tue, 29 May 2012 09:16:43 GMT</lastBuildDate><atom:link href="http://anodejs.org/rss.xml" rel="self" type="application/rss+xml"/><item><title><![CDATA[Anode Command Line Interface]]></title><description><![CDATA[<h1>Anode Command Line Interface</h1><p><small>Posted on Monday, May 28, 2012 by <a href="https://github.com/amiturgman">Ami Turgman</a></small><br/></p><p>Hi!
 
 </p>
 <p>So, now that our <a href="http://anodejs.org">anode</a> farm is being used for prototyping as well as for production services, it&#39;s time to talk a bit of how we manage and track our applications.
@@ -9,7 +9,7 @@ For this, let me introduce you to <a href="https://github.com/amiturgman/ACLI">A
 <p>ACLI is a command line interface, developed mainly for the use in the <a href="http://anodejs.org">anode project</a>.  
 
 </p>
-<p><strong>Why do you need another command line interface, there are already few out there...</strong><br>Well, that&#39;s true... but believe me, the things this eyes have seen...
+<p><strong>Why do you need another command line interface, there are already few out there...</strong><br>Well, that&#39;s true... but believe me, the things these eyes have seen...
 
 </p>
 <p><strong>No, really... why do you need another command line interface?</strong><br>From my experience they were&#39;nt very easy to use. Some were too buggy, some couldn&#39;t get HTML objects as a command execution result, and others were too limited of how to configure the control look &amp; feel, command line prompt text, and more... each of the existing CLIs had some of the required functionality, but did not support other features that we needed.<br>The most suitable library for our needs was the <a href="https://github.com/mozilla/gcli">GCLI</a> component, which was the main inspiration for implementing ACLI, mostly in the area of the command structure.

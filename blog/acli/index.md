@@ -6,7 +6,7 @@ For this, let me introduce you to [Anode Command Line Interface](https://github.
 ACLI is a command line interface, developed mainly for the use in the [anode project](http://anodejs.org).  
 
 **Why do you need another command line interface, there are already few out there...**  
-Well, that's true... but believe me, the things this eyes have seen...
+Well, that's true... but believe me, the things these eyes have seen...
 
 **No, really... why do you need another command line interface?**  
 From my experience they were'nt very easy to use. Some were too buggy, some couldn't get HTML objects as a command execution result, and others were too limited of how to configure the control look & feel, command line prompt text, and more... each of the existing CLIs had some of the required functionality, but did not support other features that we needed.  
