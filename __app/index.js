@@ -1,6 +1,10 @@
 var express = require('express');
+var rebus = require('rebus')(process.env.ANODE_REBUS);
+var cfg = rebus.value.farm['metrics.sys'];
 var metrics = require('metricsd')({
-  prefix: 'anodejs_org'
+  prefix: 'anodejs_org',
+  host: cfg.host,
+  port: cfg.port
 });
 require('./remote'); // implements `req.remote`
 
